@@ -31,7 +31,7 @@ jobs:
         pyinstaller --name=微信视频号嗅探器Pro --windowed --onefile --hidden-import=mitmproxy --hidden-import=mitmproxy.tools.main --hidden-import=mitmproxy.http --hidden-import=mitmproxy.net --hidden-import=mitmproxy.proxy --hidden-import=PyQt5 --hidden-import=PyQt5.QtCore --hidden-import=PyQt5.QtWidgets --hidden-import=PyQt5.QtGui --hidden-import=requests --clean main.py
     
     - name: 上传成品
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # ← v3 改成 v4
       with:
         name: 微信视频号嗅探器Pro
         path: dist/*.exe
