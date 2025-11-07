@@ -1,0 +1,37 @@
+name: 自动打包EXE
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v3
+    
+    - name: 设置 Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: 安装依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install mitmproxy==10.1.1
+        pip install PyQt5==5.15.10
+        pip install requests==2.31.0
+        pip install pyinstaller==6.3.0
+    
+    - name: 打包 EXE
+      run: |
+        pyinstaller --name=微信视频号嗅探器Pro --windowed --onefile --hidden-import=mitmproxy --hidden-import=mitmproxy.tools.main --hidden-import=mitmproxy.http --hidden-import=mitmproxy.net --hidden-import=mitmproxy.proxy --hidden-import=PyQt5 --hidden-import=PyQt5.QtCore --hidden-import=PyQt5.QtWidgets --hidden-import=PyQt5.QtGui --hidden-import=requests --clean main.py
+    
+    - name: 上传成品
+      uses: actions/upload-artifact@v3
+      with:
+        name: 微信视频号嗅探器Pro
+        path: dist/*.exe
